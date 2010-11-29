@@ -6,7 +6,7 @@ use parent qw(Exporter Digest::base);
 
 use MIME::Base64 ();
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 $VERSION = eval $VERSION;
 
 eval {
@@ -24,33 +24,6 @@ our @EXPORT_OK = qw(
     keccak_384 keccak_384_hex keccak_384_base64
     keccak_512 keccak_512_hex keccak_512_base64
 );
-
-# TODO: convert to C.
-sub keccak_224_hex  { unpack 'H*', keccak_224(@_) }
-sub keccak_256_hex  { unpack 'H*', keccak_256(@_) }
-sub keccak_384_hex  { unpack 'H*', keccak_384(@_) }
-sub keccak_512_hex  { unpack 'H*', keccak_512(@_) }
-
-sub keccak_224_base64 {
-    my $b64 = MIME::Base64::encode(keccak_224(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub keccak_256_base64 {
-    my $b64 = MIME::Base64::encode(keccak_256(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub keccak_384_base64 {
-    my $b64 = MIME::Base64::encode(keccak_384(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub keccak_512_base64 {
-    my $b64 = MIME::Base64::encode(keccak_512(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
 
 sub add_bits {
     my ($self, $data, $bits) = @_;
@@ -75,8 +48,8 @@ Digest::Keccak - Perl interface to the Keccak digest algorithm
     use Digest::Keccak qw(keccak_256 keccak_256_hex keccak_256_base64);
 
     $digest = keccak_256($data);
-    $digest = keccak_hex_256($data);
-    $digest = keccak_base64_256($data);
+    $digest = keccak_256_hex($data);
+    $digest = keccak_256_base64($data);
 
     # Object-oriented interface
     use Digest::Keccak;
@@ -156,6 +129,8 @@ Returns the algorithm used by the object.
 =head1 SEE ALSO
 
 L<Digest>
+
+L<Task::Digest>
 
 L<http://keccak.noekeon.org/>
 
